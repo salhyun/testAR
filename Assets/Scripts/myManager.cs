@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class myManager : MonoBehaviour {
 
+	public sceneManager mSceneManager;
+
 	public void change_tex()
 	{
 		GameObject capsule = GameObject.Find ("Capsule");
@@ -15,5 +17,10 @@ public class myManager : MonoBehaviour {
 
 		//material.color = Color.blue;
 		material.SetTexture ("_MainTex", Resources.Load ("images/150463757969262") as Texture);
+	}
+
+	public void update_tex()
+	{
+		mSceneManager.updateCamImage ();
 	}
 }

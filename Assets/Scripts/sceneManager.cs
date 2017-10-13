@@ -12,25 +12,27 @@ public class sceneManager : MonoBehaviour {
 	private Color capsuleColor;
 	private Image camImage;
 
+	private Image.PIXEL_FORMAT pixelFormat = Image.PIXEL_FORMAT.RGB888;
+
 	// Use this for initialization
 	void Start () {
 		camDevice = CameraDevice.Instance;
-		bool enable = camDevice.SetFrameFormat (Image.PIXEL_FORMAT.RGB888, true);
+		bool enable = camDevice.SetFrameFormat (pixelFormat, true);
 		Debug.Log ("camDevice setFormat = " + enable);
 	}
 
-	// Update is called once per frame
-	void Update () {
-
+	public void updateCamImage()
+	{
 		bool isActive = camDevice.IsActive ();
 		Debug.Log ("camDevice active = " + isActive);
 
-		camImage = camDevice.GetCameraImage (Image.PIXEL_FORMAT.RGB888);
+		camImage = camDevice.GetCameraImage (pixelFormat);
 		if (camImage != null) {
 			Debug.Log ("camera width = " + camImage.Width + ", height = " + camImage.Height);
 
 			Texture2D texImage = new Texture2D (camImage.Width, camImage.Height);
 			camImage.CopyToTexture (texImage);
+			texImage.Apply ();
 
 			//texImage = Resources.Load ("images/150463757969262") as Texture2D ;
 
@@ -40,12 +42,11 @@ public class sceneManager : MonoBehaviour {
 		else
 			Debug.Log ("camImage : null");
 
-		/*
-		Texture2D texImage = new Texture2D (camImage.Width, camImage.Height);
-		camImage.CopyToTexture (texImage);
+	}
 
-		Material material = capsule.GetComponent<Renderer> ().material;
-		material.SetTexture ("_MainTex", texImage);
-		*/
+	// Update is called once per frame
+	void Update () {
+
+
 	}
 }
